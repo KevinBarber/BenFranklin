@@ -1,0 +1,32 @@
+#kevin barber book parsing project 2018
+from collections import Counter
+import requests
+
+
+def get_ebook_content():
+    response = requests.get('http://www.gutenberg.org/cache/epub/148/pg148.txt')
+    return response
+
+def count_word_freq():
+    response= get_ebook_content()
+    if response != None and response.status_code == 200: #makes sure the link works
+        text = response.text.strip()
+        start = '*** START OF THIS PROJECT GUTENBERG EBOOK AUTOBIOGRAPHY OF BENJAMIN'
+        end = '*** END OF THIS PROJECT GUTENBERG EBOOK THE AUTOBIOGRAPHY OF BENJAMIN'
+        i = text.index(start) + len(start)
+        j = text.index(end)
+        text = text[i:j]
+        #http://book.pythontips.com/en/latest/map_filter.html This is the link that helped me figure out how to filter with my list
+        words = list(map(lambda x: x.strip(), text.split())) #strips blank space away
+        words = list(filter(lambda x: x != '', words)) #Filters out the empty words. b/c when i split 2 words it makes it into 2 words and a third that is an empty ''
+        dictionary = {} #my dictionary 
+        for word in words:
+            if word not in dictionary:
+                dictionary[word] = 1
+            else:
+                dictionary[word] += 1
+        counter = Counter(dictionary)
+        print (counter.most_common(20))
+
+get_ebook_content()
+count_word_freq()
