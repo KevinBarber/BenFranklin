@@ -1,16 +1,15 @@
-#kevin barber book parsing project 2018
 from collections import Counter
 import requests
 
 
 def get_ebook_content():
-    response = requests.get('http://www.gutenberg.org/cache/epub/148/pg148.txt')
-    return response
+    benFranklinAutoBiography = requests.get('http://www.gutenberg.org/cache/epub/148/pg148.txt')
+    return benFranklinAutoBiography
 
 def count_word_freq():
-    response= get_ebook_content()
-    if response != None and response.status_code == 200: #makes sure the link works
-        text = response.text.strip()
+    benFranklinAutoBiography= get_ebook_content()
+    if benFranklinAutoBiography != None and benFranklinAutoBiography.status_code == 200: #makes sure the link works
+        text = benFranklinAutoBiography.text.strip()
         start = '*** START OF THIS PROJECT GUTENBERG EBOOK AUTOBIOGRAPHY OF BENJAMIN'
         end = '*** END OF THIS PROJECT GUTENBERG EBOOK THE AUTOBIOGRAPHY OF BENJAMIN'
         i = text.index(start) + len(start)
